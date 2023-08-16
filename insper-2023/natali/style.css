@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+h1 {
+  font-family: "League Spartan", sans-serif;
+  font-size: 200px;
+  text-align: center;
+  color: #ffe4e1;
+  -webkit-text-stroke-width: 4px;
+  -webkit-text-stroke-color: blue;
+  -moz-text-stroke-width: 4px;
+  -moz-text-stroke-color: blue;
+  text-stroke-width: 4px;
+  text-stroke-color: blue;
+  position: relative;
+  z-index: 2;
+}
+
+.ball {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #ffe4e1;
+  border: 2px solid #7b68ee;
+  transform: translate(-50%, -50%);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #ffe4e1;
+}
+
+.container {
+  font-size: 48px;
+}
+
+.tab {
+  width: 300px;
+}
+
+.tab-label {
+  background-color: #ffe4e1;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.tab-content {
+  display: none;
+  padding: 10px;
+  background-color: #ffe4e1;
+}
+.aba {
+  margin-top: 20px;
+  font-family: "League Spartan", sans-serif;
+  color: #7b68ee;
+  font-size: 20px;
+  position: fixed;
+  top: 20px; /* Margem superior */
+  right: 20px;
+}
+
+.aba-botao {
+  background-color: #ffe4e1;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.aba-content {
+  display: none;
+  padding: 10px;
+  background-color: #ffe4e1;
+}

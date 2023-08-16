@@ -1,0 +1,81 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: "Staatliches", cursive;
+  color: #dc6565;
+  background-color: #faf0da;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px;
+  color: #dc6565;
+}
+
+h1 {
+  font-size: 39px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-right: 11px;
+  margin-left: 5px;
+  color: #dc6565;
+  font-family: "Staatliches", cursive;
+}
+
+h2 {
+  margin: 0;
+  font-size: 20px;
+  font-family: "Staatliches", cursive;
+  color: #dc6565;
+  background-color: #faf0da;
+}
+
+audio {
+  display: block;
+  margin: 0 auto;
+}
+
+div.canvas {
+  position: relative;
+  background-image: url(images/SPnoite.png);
+  background-size: cover;
+  width: 100%;
+  height: 80vh;
+  margin: 1rem 0;
+  overflow: hidden; /* para esconder os wagners que estariam fora dos limites */
+}
+
+img.wagner {
+  position: absolute;
+  top: 0;
+  /*transition: transform 0.5s;*/
+  /*fica um efeito engraçado, como se os wagners pulassem da extremidade inferior para cima*/
+}
+
+img.wagner.gone {
+  transition: transform 1s;
+}
+
+p.no-more-wagners {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: white;
+  text-shadow: 0 0 10px black;
+  z-index: 2;
+  text-align: center;
+  transition: opacity 1s;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+p.no-more-wagners.visible {
+  opacity: 1;
+}

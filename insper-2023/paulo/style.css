@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+}
+
+svg {
+    margin: 0 auto;
+    display: block;
+}
+
+path {
+    stroke: gray;
+    fill: aliceblue;
+}
+
+path.highlight {
+    fill: khaki;
+}

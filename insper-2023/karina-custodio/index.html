@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>PROTEJA.org</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="estilo.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <div class="logo"><img src="PROTEJa.png" alt="logo PROTEJA" /></div>
+        <h1>ÁREAS PROTEGIDAS DO BRASIL</h1>
+        <a href="">INICIATIVA PROTEJA</a>
+        <a href="">PARCEIROS</a>
+        <a href="">COMO USAR</a>
+        <div class="laranja"><a href="">ENTRAR/CADASTRO</a></div>
+      </nav>
+    </header>
+
+    <div class="swiper">
+      <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <h2>PODCAST PROTEJA BRASIL</h2>
+                <p>
+                Conheça em breve o Podcast Proteja, <br />
+                vários episódios sobre o estado das áreas <br />
+                protegidas do Brasil.
+                </p>
+            </div>
+            <div class="swiper-slide">
+                <h2>Proteja TALKS</h2>
+                <p>
+                Conheça em breve o Podcast Proteja, <br />
+                vários episódios sobre o estado das áreas <br />
+                protegidas do Brasil.
+                </p>
+            </div>
+            <div class="swiper-slide">
+                <h2>Seja um guardião da natureza</h2>
+                <p>
+                Conheça em breve o Podcast Proteja, <br />
+                vários episódios sobre o estado das áreas <br />
+                protegidas do Brasil.
+                </p>
+            </div>
+        </div>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+    </div>
+
+    <script type="module">
+        import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.esm.browser.min.js'
+      
+        const swiper = new Swiper(".swiper", {
+            // Optional parameters
+            direction: "vertical",
+            loop: true,
+
+            // If we need pagination
+            pagination: {
+                el: ".swiper-pagination"
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            },
+
+            /*
+
+            // And if we need scrollbar
+            scrollbar: {
+                el: ".swiper-scrollbar"
+            }
+
+            */
+        });
+
+    </script>
+
+
+
+  </body>
+</html>

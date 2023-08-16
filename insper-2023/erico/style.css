@@ -1,0 +1,17 @@
+path {
+    fill: ghostwhite;
+    stroke: #333;
+}
+
+path.highlight {
+    fill: pink;
+}
+
+.nome-estado {
+    padding: .25em .5em;
+    border: 1px solid #333;
+    color: #333;
+    background-color: pink;
+    border-radius: .5em;
+    font-weight: bold;
+}
