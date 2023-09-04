@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Quick Quiz</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="home" class="flex-center flex-column">
+        <h1>Quick Quiz</h1>
+        <form id="startGameForm">
+          <select name="seletor-regioes" id="seletor-regioes">
+            <option value="BR">Brasil</option>
+            <option value="NE">Nordeste</option>
+            <option value="SE">Sudeste</option>
+            <option value="S">Sul</option>
+            <option value="N">Norte</option>
+            <option value="CO">Centro-Oeste</option>
+          </select>
+          <br>
+          <input id="playerName" class="btn" type="text" placeholder="Enter your name">
+          <a type="submit" class="btn" href="game.html">Play</a>
+        </form>
+        
+      </div>
+    </div>
+    <script src="start.js"></script>
+  </body>
+</html>

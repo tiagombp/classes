@@ -58,6 +58,7 @@ fetch('estados.json').then(response => response.json()).then(data => {
         // em uma propriedade "__data__"
 
         const element_data = e.target.__data__;
+        //console.log(d3.select(e.target).datum())
         //console.log(element_data);
 
         const state_name = element_data.properties.name_state;
