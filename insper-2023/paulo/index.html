@@ -9,16 +9,24 @@
 </head>
 <body>
 
-    <h1>Distritos de SP</h1>
+    <div class="main-text">
 
-    <p>O mouse está sobre o distrito: <span class="nome-distrito">nenhum</span>.</p>
+        <h1>Distritos de SP</h1>
+
+        <p class="texto-tooltip">
+            <span class="nome-distrito"></span> <span class="dados-distrito"></span>
+        </p>    
+
+    </div>
+
+    <div class="legenda"></div>
 
     <div class="map-container">
         <svg class="map"></svg>
     </div>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+    <!--<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>-->
     <script src="script.js"></script>
     
 </body>

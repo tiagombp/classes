@@ -2,16 +2,64 @@
     box-sizing: border-box;
 }
 
+:root {
+    --largura: 600px;
+}
+
+body {
+    background-color: black;
+}
+
+.main-text {
+    margin: 0 auto;
+    max-width: var(--largura);
+    color: white;
+}
+
 svg {
     margin: 0 auto;
     display: block;
+    width: 100%;
+    max-width: var(--largura);
+    height: 600px;
 }
 
 path {
-    stroke: gray;
-    fill: aliceblue;
+    /*stroke: transparent;
+    fill: cornflowerblue;*/
 }
 
 path.highlight {
-    fill: khaki;
+    stroke: white;
+    stroke-width: 3;
+}
+
+.texto-tooltip {
+    min-height: 3em;
+}
+
+.legenda {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: .8rem;
+    margin: 1rem auto;
+    max-width: var(--largura);
+    gap: 1.5em;
+}
+
+.color-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.color-key {
+    width: 1em;
+    height: 1em;
+}
+
+.color-label {
+    color: white;
+    margin-left: .5em;
 }
