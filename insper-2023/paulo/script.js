@@ -12,6 +12,7 @@ function format(n) {
   return new Intl.NumberFormat("pt-BR", { style: 'decimal' }).format(n)
 }
 
+// função para criar a legenda de cores
 function make_color_legend() {
 
   const cats = Object.keys(colors);
@@ -22,6 +23,7 @@ function make_color_legend() {
 
     const new_cat_container = document.createElement('div');
     new_cat_container.classList.add('color-container');
+    new_cat_container.dataset.category = cat;
 
     const new_color_key = document.createElement('span');
     new_color_key.classList.add('color-key');
@@ -130,7 +132,7 @@ Promise.all([
     // pronto, capturamos o nome do distrito. Agora vamos atualizar o conteúdo do elemento <span class="nome-distrito"> com esse nome
 
     // primeiro geramos uma referência ao elemento
-    const name_container = document.querySelector('span.nome-distrito');
+    const name_container = document.querySelector('.nome-distrito');
     // agora atualizamos o conteúdo do elemento
     name_container.innerText = district_name;
 
@@ -149,13 +151,14 @@ Promise.all([
 
     texto_el.innerHTML = texto;
     
-
     // agora vamos aplicar uma classe de nome "highlight" ao elemento correspondente 
     // (e remover essa classe de algum outro elemento que já a tenha)
     // (com d3, essa operação é bem mais "sintética": "distritos" é uma referência à coleção de todos os elementos path, vamos passar de um por um e testar se o nome do distrito correspondente é igual ao nome do distrito sobre o qual o mouse está (esse nome está armazenado em "district_name"))
     distritos.classed('highlight', d => d.properties.regiao == district_name);
-
     // no css, definimos o efeito que essa classe provoca!
+
+    // para destacar a legenda correspondente à categoria do distrito destacado
+    //d3.selectAll('.color-container').classed('highlighted', function() { return this.dataset.category == element_data.properties.cat });
 
   }
 
