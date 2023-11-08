@@ -21,7 +21,7 @@
 <h1>Quanto gasto com transporte?</h1>
 </br>
 <label for="opcoes">Clique para selecionar as opções:</label>
-<select id="opcoes" onchange="mostrarOpcoes(this)">
+<select id="opcoes">
     <option value="carromais">Carro mais econômico</option>
     <option value="carromenos">Carro menos econômico</option>
     <option value="onibus-gratuidade">Ônibus com gratuidade</option>
@@ -43,18 +43,6 @@
     <option value="fortaleza">Fortaleza (CE)</option>
     <option value="sao-luis">São Luís (MA)</option>
 </select>
-<br>
-
-<div id="opcoes-partida" style="display: none;">
-<label for="partida">Ponto de partida:</label>
-<input type="text" id="partida" placeholder="Endereço de partida">
-</div>
-<br>
-
-<div id="opcoes-destino" style="display: none;">
-<label for="destino">Destino:</label>
-<input type="text" id="destino" placeholder="Endereço de destino">
-</div>
 <br>
 
 <div class="map-container">
