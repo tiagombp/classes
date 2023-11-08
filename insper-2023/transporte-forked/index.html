@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Custo do transporte</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+</head>
+
+<body>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+
+<h1>Quanto gasto com transporte?</h1>
+</br>
+<label for="opcoes">Clique para selecionar as opções:</label>
+<select id="opcoes" onchange="mostrarOpcoes(this)">
+    <option value="carromais">Carro mais econômico</option>
+    <option value="carromenos">Carro menos econômico</option>
+    <option value="onibus-gratuidade">Ônibus com gratuidade</option>
+    <option value="onibus-vamu" id="opcao-onibus-vamu">Ônibus com cartão Vamu cidadão</option>
+    <option value="onibus-debito">Ônibus com cartão débito/crédito</option>
+    <option value="uber">Uber</option>
+</select>
+<br>
+
+<label for="cidade">Selecione a capital do Nordeste:</label>
+<select id="cidade">
+    <option value="maceio">Maceió (AL)</option>
+    <option value="salvador">Salvador (BA)</option>
+    <option value="aracaju">Aracaju (SE)</option>
+    <option value="recife">Recife (PE)</option>
+    <option value="natal">Natal (RN)</option>
+    <option value="joao-pessoa">João Pessoa (PB)</option>
+    <option value="teresina">Teresina (PI)</option>
+    <option value="fortaleza">Fortaleza (CE)</option>
+    <option value="sao-luis">São Luís (MA)</option>
+</select>
+<br>
+
+<div id="opcoes-partida" style="display: none;">
+<label for="partida">Ponto de partida:</label>
+<input type="text" id="partida" placeholder="Endereço de partida">
+</div>
+<br>
+
+<div id="opcoes-destino" style="display: none;">
+<label for="destino">Destino:</label>
+<input type="text" id="destino" placeholder="Endereço de destino">
+</div>
+<br>
+
+<div class="map-container">
+    <div id="map" style="display: initial;"></div>
+</div>
+
+
+
+
+<div id="opcoes-onibus-gratuidade" style="display: none;">
+    <label for="passagens-gratuidade">Quantas passagens você utiliza por dia?</label>
+    <input type="number" id="passagens-gratuidade">
+</div>
+
+<div id="opcao-combustivel">
+    <label for="destino">Preço do Combustível:</label>
+    <input type="text" id="combustivel" placeholder="Valor do combustível em R$">
+</div>
+<br>
+
+<div id="opcoes-uber" style="display: none;">
+    <label for="distancia-uber">Distância (em km):</label>
+    <input type="number" id="distancia-uber">
+    <br>
+</div>
+
+<label for="salario">Informe seu salário:</label>
+<input type="number" id="salario" placeholder="Valor em R$">
+<br>
+
+<button onclick="calcularImpactoSalarial()">Calcular</button>
+
+<p id="resultado"></p>
+
+<h3> Entenda a metodologia</h3>
+<p> Para calcular o impacto salarial da utilização do transporte público ou particular nas capitais do Nordeste,
+    utilizamos algumas variáveis: </p>
+<ul>
+    <li data-highlight="Carro menos econômico: "> O Jeep Compass é o carro do modelo SUV mais vendidos no Brasil, por
+        isso foi escolhido para a categoria de carro menos econômico. Neste caso, foram levados em consideração a
+        depreciação do veículo por mês, consumo médio, manutenção, IPVA e seguro. </li>
+    <li data-highlight="Carro mais econômico: "> Foi utilizado como referência o Kwid, carro da marca Renault, que
+        atualmente é um dos mais baratos e mais econômicos vendidos no Brasil. Neste caso, foram levados em consideração
+        a depreciação do veículo por mês, consumo médio, manutenção, IPVA e seguro. </li>
+    <li data-highlight="Ônibus com gratuidade: ">Idosos, estudantes, pessoas com deficiência ou comorbidades e pessoas
+        desempregadas podem utilizar do transporte público sem pagar, com os respectivos cartões.</li>
+    <li data-highlight="Ônibus com cartão Vamu Cidadão: "> (Apenas em Maceió) Quem utiliza o cartão "Vamu Cidadão", que
+        é a modalidade da população em geral, paga em cada passagem o valor de R$3,49 </li>
+    <li data-highlight="Ônibus com cartões de débito ou crédito: "> Em Maceió, há a opção de pagar o transporte público
+        com cartões de crédito e débito ou QR Code pelo aplicativo do Vamu Mobilidade. Mas, nestes casos, a passagem
+        fica mais cara, no valor de R$4</li>
+    <li data-highlight="Uber: "> Foram calculadas 100 rotas possíveis, com uma variação de quilometragem menor que 1km a
+        100 km. As médias do valores obtidos foram usados para fazer o cálculo, que não leva em consideração possíveis
+        variáveis, como tarifa dinâmica ou descontos </li>
+</ul>
+
+<p> Após selecionar a opção, basta preencher as informações solicitadas e calcular o impacto mensal no salário com esses
+    tipos de transporte. Foram considerados 21 dias, que é a média de dias úteis por mês.</p>
+
+        <script src="script.js"></script>
+</body>
+
+</html>
