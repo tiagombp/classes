@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Trabalho Final</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Cabin&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <!-- Demo styles -->
+
+    <style>
+
+   
+
+      body {
+        height: 150vh;
+        margin: 0;
+        font-family: "Barlow", sans-serif;
+        font-family: "Cabin", sans-serif;
+      }
+
+      .cabeca-1 {
+        background-color: #f1f1f1;
+        margin: 0;
+        width: 100%;
+        height: 50px;
+      }
+
+      .espaco-1 {
+        margin-top: 10px;
+        width: 100%;
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+      }
+
+      .caixa-grande {
+        margin-top: 10px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      #texto {
+        border-radius: 35px 35px 35px 35px;
+        margin-top: 15px;
+        width: 90%;
+        min-width: 290px;
+        max-width: 600px;
+        height: 90%;
+        outline: 10px solid greenyellow;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+
+      }
+      svg {
+        margin-top: 10px;
+        border-radius: 35px 35px 0 0;
+        background-color: #f1f1f1;
+      }
+
+
+
+
+      .barras-meses{
+        fill: white;
+        opacity: 0.03;
+      }
+
+      .barras-meses:hover{
+        fill: #ecffd4;
+        opacity: 0.6;
+      }
+
+      #msg_1 {
+        margin-top: 20px;
+        width: 95%;
+        height: 10%;
+      }
+
+      circle.point.destaque {
+        fill: #007e86;
+        opacity: 1;
+        r: 5px;
+      }
+
+      circle.point.destaque:hover {
+        stroke: #ff419f;
+        fill: #ff419f;
+        opacity: 0.9;
+        r: 1.7%;
+      }
+
+      circle.point {
+        fill: black;
+        stroke: transparent;
+        r: 1px;
+      }
+
+      path.linha {
+        fill: transparent;
+        stroke: black;
+        stroke-width: 2px;
+      }
+
+      #caixa{
+        border-top: 4px solid black;        
+        margin-top: 5px;
+        width: 95%;
+        height: 20px;
+        display: flex;
+        justify-content: left;}
+
+        .mes-1{
+          margin-top: 0px;
+          font-size: 12px;
+          width: 10%;
+          height: 80%;
+        }
+
+        .mes-2{
+          margin-left: 3%;
+          margin-top: 0px;
+          font-size: 12px;
+          width: 10%;
+          height: 80%;
+        }
+
+        .mes-3{
+          margin-left: 10%;
+          margin-top: 0px;
+          font-size: 12px;
+          width: 10%;
+          height: 80%;
+        }
+
+        .mes-4{
+          margin-left: 8%;
+          margin-top: 0px;
+          font-size: 12px;
+          width: 10%;
+          height: 80%;
+        }
+
+
+        .mes-5{
+          margin-left: 13%;
+          margin-top: 0px;
+          font-size: 12px;
+          width: 10%;
+          height: 80%;
+        }
+
+
+        .mes-6{
+          margin-left: 6.5%;
+          margin-top: 0px;
+          font-size: 12px;
+          width: 6%;
+          height: 80%;
+        }
+
+      #kiste{
+        font-size: 90%;
+        margin-top: 15px;
+        width: 95%;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+      }
+
+      #knopf{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0 0 0 35px;
+        margin-top: 0px;
+        background-color: #f1f1f1;
+        width: 44%;
+        height: 90%;}
+
+      #knopf-2{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0 0 35px 0;
+        margin-top: 0px;
+        background-color: #f1f1f1;
+        width: 56%;
+        height: 90%;
+      }
+
+      #kiste-texto{
+        border-radius: 35px 35px 35px 35px;
+        background-color: white;
+        width: 95%;
+        height: 590px;
+        margin-top: 15px;
+
+      }
+
+      #titulo{
+        font-size: 110%;
+        color: #3d828d;
+        margin-left: 5%;
+        margin-right: 5%;
+
+      }
+
+      #texto-inf{
+
+        border-radius: 35px 35px 35px 35px;
+        width: 93%;
+        height: 82%;
+        margin-left: 3%;
+        margin-right: 3%;
+        text-align: justify;
+        line-height: 1.5;
+      }
+
+      #texto-inf a:hover{
+        background-color: #3d828d;
+        color: white;
+      }
+
+      #texto-inf a{
+        background-color: greenyellow;
+        color: black;
+      }
+
+
+
+      h1.color{
+color: #4b888c;
+      }
+
+      h1.color:hover{
+color: #8cd400;
+      }
+
+    </style>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <header class="cabeca-1"></header>
+    <header class="espaco-1"><h1>USD</h1><h1 class="color">BRL</h1></header>
+    <div class="caixa-grande">
+      <div id="texto">
+        <svg width="95%" height="300px">
+
+        
+          <!--pirulitos-->
+          <!--
+          <circle class="dia-4-link" id="dia-5" cx="6%" cy="171.122" r="1.8%" fill="black"/>
+          <circle class="dia-4-link" id="dia-14" cx="15%" cy="149.828" r="1.8%" fill="black"/>
+          <circle class="dia-4-link" id="dia-26" cx="27%" cy="177.436" r="1.8%" fill="black"/>
+          <circle class="dia-4-link" id="dia-34" cx="35%" cy="154.266" r="1.8%" fill="black"/>
+          <circle class="dia-4-link" id="dia-48" cx="49%" cy="160.328" r="1.8%" fill="black"/>
+          <circle class="dia-4-link" id="dia-72" cx="73%" cy="133.308" r="1.8%" fill="black"/>
+          <circle class="dia-4-link" id="dia-76" cx="77%" cy="118.580" r="1.8%" fill="black"/>
+          <circle class="dia-4-link" id="dia-97" cx="98%" cy="154.658" r="1.8%" fill="black"/>
+          -->
+
+        </svg>
+<div id="caixa">
+  <p class="mes-1">jun.23</p>
+  <p class="mes-2">jul.23</p>
+  <p class="mes-3">ago.23</p>
+  <p class="mes-4">set.23</p>
+  <p class="mes-5">out.23</p>
+  <p class="mes-6">nov.23</p>
+
+</div>
+        <div id="kiste">
+          <div id="knopf">
+            Data: --/--/----
+          </div>
+          <div id="knopf-2">
+            R$ -,----
+          </div>
+        </div>
+
+        <div id="kiste-texto">
+           <p id="titulo"><b><u>Dólar cai 1,5% após dados nos EUA</u></b></p>
+           <p id="texto-inf">Na sexta-feira, dia 03 de novembro, <a href="https://valor.globo.com/financas/noticia/2023/11/03/dolar-fecha-abaixo-de-r-490-apos-dados-fracos-do-mercado-de-trabalho-nos-eua.ghtml">o dólar fechou em queda</a>, 
+            diante de apostas crescentes de que o Federal Reserve (Fed, banco central americano) 
+            pode ter chegado ao fim de seu ciclo de aperto monetário, já que mais dados de emprego 
+            corroboram a leitura de que o mercado de trabalho nos Estados Unidos <a href="https://valor.globo.com/mundo/noticia/2023/11/03/eua-criam-150-mil-empregos-em-outubro-menos-que-o-esperado.ghtml">está perdendo temperatura</a>. 
+            <br><br>Pela manhã, a moeda americana operou em queda firme contra o real, e a depreciação se aprofundou após os dados do 'payroll' de outubro dos Estados Unidos. O movimento esteve em linha com a desvalorização global do dólar, 
+            em dia de alívio dos títulos do Tesouro americano (Treasuries). Terminadas as negociações, 
+            o dólar comercial fechou em queda de 1,56%, a R$ 4,8953, 
+            após ter tocado a mínima de R$ 4,8764 e encostado na máxima de R$ 4,9324. Na semana, 
+            a moeda acumulou queda de 2,34%.</p>
+          </div>
+
+         <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+        let dados;
+
+        async function lerDados() {
+          dados = await d3.csv("inf.csv");
+        }
+
+        lerDados();
+
+   let estados = document.querySelectorAll("svg circle");
+
+for (let estado of estados) {
+  estado.addEventListener("click", () => {
+    for (let linha of dados) {
+      if (estado.id === linha.id) {
+        var div = document.getElementById("knopf-2");
+        const mensagem_1 = `Fechamento: R$ ${linha.cotacao}`;
+        div.innerHTML = mensagem_1;
+        div.style.backgroundColor = "greenyellow";
+        var div2 = document.getElementById("knopf");
+        const mensagem_2 = `Data: ${linha.data}`;
+        div2.innerHTML = mensagem_2;
+        div2.style.backgroundColor = "greenyellow";
+        var div3 = document.getElementById("titulo");
+        const mensagem_3 = `${linha.tit}`;
+        div3.innerHTML = mensagem_3;
+        var div4 = document.getElementById("texto-inf");
+        const mensagem_4 = `${linha.txt}`;
+        div4.innerHTML = mensagem_4;
+
+    }}
+  });
+}
+
+
+        </script>
+           <script>
+
+            let lista;
+            let x;
+
+
+            d3.csv("pontos.csv").then(function (data) {
+          
+              data.forEach( linha => {
+                linha['dataformatada'] = d3.timeParse("%d/%m/%Y")(linha.data);
+                linha['cot'] = +linha.cotacao.replace(',', '.');
+              });
+
+              const ano = +data[0].data.slice(6,10)
+
+              const lista_meses = d3.timeMonths(new Date(ano-1, 12, 1), new Date(ano, 12, 1));
+
+              lista = lista_meses;
+              console.log(lista_meses);
+
+              console.log(d3.extent(data, d => d.dataformatada));
+
+              const svg = d3.select("svg");
+      
+              const width = +window.getComputedStyle(document.querySelector('svg')).width.slice(0, -2);//  +svg.attr("width");
+              const height = +window.getComputedStyle(document.querySelector('svg')).height.slice(0, -2);
+
+              console.log(width, height);
+      
+              // Define escala para mapear o valor de 'cx' para porcentagens
+              const xScale = d3
+                .scaleTime()
+                .domain(d3.extent(lista_meses))
+                .range([0, width]);
+
+              const intervalo_cotacao = d3.extent(data, d => d.cot);
+
+              const yScale = d3
+                .scaleLinear()
+                .domain([intervalo_cotacao[0] - 0.2, intervalo_cotacao[1] + 0.2])
+                .range([height, 0]);
+      
+              svg
+                .selectAll('rect.barras-meses')
+                .data(lista_meses)
+                .join('rect')
+                .classed('barras-meses', true)
+                .attr('x', d => xScale(d))
+                .attr('y', 0)
+                .attr('width', (d,i) => xScale(lista_meses[i+1]) - xScale(d))
+                .attr('height', height)
+              ;
+
+              const gerador_linha = d3.line()
+                .x(d => xScale(d.dataformatada))
+                .y(d => yScale(d.cot))
+                //.curve(d3.curveCatmullRom);
+
+              svg
+                .append('path')
+                .classed('linha', true)
+                .attr('d', gerador_linha(data))
+              ;
+
+              // Crie círculos para cada ponto
+              svg
+                .selectAll("circle.point")
+                .data(data)
+                .join("circle")
+                .classed('point', true)
+                .classed('destaque', d => d.txt.length > 3)
+                .attr('cx', d => xScale(d.dataformatada))
+                .attr('cy', d => yScale(d.cot))
+                .append('title')
+                .text(d => d.data + ' | ' + d.cotacao)
+              ;
+
+              /*
+              svg
+                .selectAll('circle.destaque')
+                .data(data.filter(d => d.txt.length > 3))
+                .join('circle')
+                .classed('destaque', true)
+                .attr('cx', d => xScale(d.dataformatada))
+                .attr('cy', d => yScale(d.cot))
+                .append('title')
+                .text(d => d.data + ' | ' + d.cotacao)
+              ;*/
+      
+              // Crie linhas que ligam os círculos
+              svg
+                .selectAll("line")
+                .data(data.slice(1)) // Ignora o primeiro ponto
+                .enter()
+                .append("line")
+                .attr("x1", function (d, i) {
+                  return xScale(+data[i].x) + "%";
+                })
+                .attr("y1", function (d, i) {
+                  return +data[i].y;
+                })
+                .attr("x2", function (d) {
+                  return xScale(+d.x) + "%";
+                })
+                .attr("y2", function (d) {
+                  return +d.y;
+                })
+                .attr("stroke", "black")
+                .attr("stroke-width", 1.5);
+            });
+          </script>
+
+        
+  </body>
+</html>
