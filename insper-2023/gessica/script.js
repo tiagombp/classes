@@ -1,7 +1,7 @@
 // carrega os dados
 Promise.all([
 
-  fetch('mun-map-very-simp.json').then(response => response.json()),
+  fetch('mun-data-very-simp.json').then(response => response.json()),
   fetch('map-br.json').then(response => response.json())
 
 ]).then( files => {
@@ -56,6 +56,7 @@ Promise.all([
           .join("path") // na prática, este comando cria um elemento "path" para elemento na lista de dados (ou seja, para cada linha do dataframe)
           .classed('municipio', true) // acrescentamos uma classe aos elementos criados, para ficar mais fácil fazer referências a eles depois
           .attr("d", gerador_path) // o principal atributo do elemento "path" de um svg é o atributo "d", que são como instruções de desenhos ("mova o cursor para o ponto (x,y), desenhe uma linha até o ponto (x1,y1)" etc.) esse atributo vai ser gerado pela função "gerador_path" que definimos acima, convertendo as coordenadas geográficas presentes em cada linha do dataframe (ou elemento da lista de dados), em instruções de desenho
+          .attr("fill", d => d3.schemeBlues[7][d.properties.FEMININO])
   ;
 
   // acrescenta um monitor de eventos do tipo "mouseover" nos elementos <path> que foram criados
@@ -83,12 +84,55 @@ Promise.all([
 
     const nome_municipio = element_data.properties.name_muni + ` (${element_data.properties.abbrev_state})`; // "name_muni" é a coluna onde está armazenado o nome do município nesse meu arquivo de dados, e "abbrev_state" contém a sigla do estado (estou usando os dois por conta dos municípios homônimos)
 
-    // pronto, capturamos o nome do municipio. Agora vamos atualizar o conteúdo do elemento <strong class="nome-municipio"> com esse nome
+    const qde_prefeitas = element_data.properties.FEMININO; // 'FEMININO' é a coluna com o número de prefeitas eleitas
 
-    // primeiro geramos uma referência ao elemento
-    const container_nome = document.querySelector('.nome-municipio');
+    let msg;
+
+    if (qde_prefeitas == null) msg = 'Sem informação';
+    else if (qde_prefeitas == 0) msg = 'O município nunca elegeu uma prefeita';
+    else if (qde_prefeitas == 1) msg = 'Apenas uma mulher foi eleita prefeita no município';
+    else msg = `Mulheres foram eleitas ${qde_prefeitas} vezes`;
+
+    let lista_prefeitas;
+    if (qde_prefeitas >= 1) {
+
+      lista_prefeitas = element_data.properties.lista_nome_prefeitas.split(';'); // converte a lista com os nomes das prefeitas eleitas, que está armazenada como uma string na coluna "lista_nome_prefeitas", em um array
+
+    }
+
+    // pronto, capturamos as informações de que precisamos para montar a caixinha de informação. Agora vamos atualizar o conteúdo do html com essas informaçoes.
+
+    // primeiro geramos uma referência ao elemento que vai mostrar o nome do município
+    const elemento_nome = document.querySelector('.nome-municipio');
     // agora atualizamos o conteúdo do elemento
-    container_nome.innerText = nome_municipio;
+    elemento_nome.innerText = nome_municipio;
+
+    // agora geramos uma referência ao elemento que vai mostrar uma mensagem com uma síntese da quantidade de prefeitas
+    const elemento_msg = document.querySelector('.sumario-municipio');
+    // agora atualizamos o conteúdo do elemento
+    elemento_msg.innerText = msg;
+
+    // agora, caso a quantidade seja maior do 0, vamos incluir uma lista com os nomes das prefeiras
+    // capturamos uma referência para o container, um elemento de lista (<ul>)
+    const container_lista_nome = document.querySelector('.lista-prefeitas');
+
+    // primeiro esvaziamos esse elemento (ele pode já estar preenchido de uma outra seleção)
+    container_lista_nome.innerHTML = '';
+
+    // se pelo menos uma prefeita foi eleita...
+    if (qde_prefeitas >= 1) {
+
+      lista_prefeitas.forEach(prefeita => { // vamos iterar sobre a array que contem a lista de prefeitas
+
+        // para cada prefeita, vamos criar um elemento do tipo item de lista <li>
+        const li = document.createElement('li');
+        // alimentamos seu conteúdo com o nome da prefeita
+        li.innerText = prefeita;
+        // adicionamos o elemento à lista de nomes
+        container_lista_nome.appendChild(li);
+      })
+
+    }
     
     // agora vamos aplicar uma classe de nome "highlight" ao elemento correspondente 
     // (e remover essa classe de algum outro elemento que já a tenha)
@@ -99,3 +143,36 @@ Promise.all([
   }
 
 })
+
+// legenda
+
+function faz_a_legenda() {
+
+  const valores_feminino = [0, 1, 2, 3, 4, 5, 6];
+
+  const leg = document.querySelector('.legenda');
+
+  valores_feminino.forEach(feminino => {
+
+    const new_cat_container = document.createElement('div');
+    new_cat_container.classList.add('color-container');
+    new_cat_container.dataset.category = feminino;
+
+    const new_color_key = document.createElement('span');
+    new_color_key.classList.add('color-key');
+    new_color_key.style.backgroundColor = d3.schemeBlues[7][feminino];
+
+    const new_color_label = document.createElement('span');
+    new_color_label.classList.add('color-label');
+    new_color_label.innerText = feminino;
+
+    new_cat_container.appendChild(new_color_key);
+    new_cat_container.appendChild(new_color_label);
+
+    leg.appendChild(new_cat_container);
+
+  })
+
+}
+
+faz_a_legenda();

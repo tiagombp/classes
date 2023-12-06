@@ -20,7 +20,7 @@ svg {
 }
 
 path.municipio {
-    fill: cornflowerblue;
+    /*fill: cornflowerblue;*/
     stroke: white;
     stroke-width: .01;
 }
@@ -34,6 +34,7 @@ path.highlight {
     min-height: 3em;
 }
 
+/* legendas */
 .legenda {
     display: flex;
     flex-direction: row;
@@ -53,7 +54,7 @@ path.highlight {
 }
 
 .color-container.highlighted {
-    border-bottom-color: white;
+    border-bottom-color: #333;
 }
 
 .color-key {
@@ -62,6 +63,6 @@ path.highlight {
 }
 
 .color-label {
-    color: white;
+    color: #333;
     margin-left: .5em;
 }
