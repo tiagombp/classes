@@ -21,6 +21,8 @@ Promise.all([
   // seleciona o elemento svg em que o mapa será desenhado
   const svg = d3.select('svg.map');
 
+  // pega a largura do container do mapa (vai ser necessário para o tooltip)
+
   // capturamos as dimensoes do svg calculadas pelo browser
   const wpx = svg.style('width');
   const hpx = svg.style('height');
@@ -30,6 +32,11 @@ Promise.all([
   const w = +wpx.slice(0,-2);
   const h = +hpx.slice(0,-2);
   console.log('Dimensoes em formato numérico', w, h)
+
+  // atualiza variável do css que define a largura do tooltip
+  if (w < 600) {
+    document.documentElement.style.setProperty('--largura-tt', w / 2 - 10 + 'px');
+  }
 
   // define os atributos do svg com base nessas dimensões
   svg.attr('width', w);
@@ -90,8 +97,8 @@ Promise.all([
 
     if (qde_prefeitas == null) msg = 'Sem informação';
     else if (qde_prefeitas == 0) msg = 'O município nunca elegeu uma prefeita';
-    else if (qde_prefeitas == 1) msg = 'Apenas uma mulher foi eleita prefeita no município';
-    else msg = `Mulheres foram eleitas ${qde_prefeitas} vezes`;
+    else if (qde_prefeitas == 1) msg = 'Apenas uma mulher foi eleita prefeita no município:';
+    else msg = `Mulheres foram eleitas prefeitas em ${qde_prefeitas} ocasiões:`;
 
     let lista_prefeitas;
     if (qde_prefeitas >= 1) {
@@ -133,6 +140,34 @@ Promise.all([
       })
 
     }
+
+    // agora mostramos a tooltip (ela fica escondida por padrão)
+    const tt = document.querySelector('.texto-tooltip');
+    tt.classList.remove('hidden');
+
+    // agora definimos a posição
+    // a variável "e" traz informações sobre a posição do mouse
+    console.log(e);
+
+    const x = e.offsetX;
+    const y = e.offsetY;
+
+    if (x < w / 2) {
+      tt.style.left = x + 10 + 'px';
+      tt.style.right = '';
+    } else {
+      tt.style.right = w - x + 10 + 'px';
+      tt.style.left = '';
+    }
+
+    if (y < h / 2) {
+      tt.style.top = y + 10 + 'px';
+      tt.style.bottom = '';
+    } else {
+      tt.style.bottom = h - y + 10 + 'px';
+      tt.style.top = '';
+    }
+    
     
     // agora vamos aplicar uma classe de nome "highlight" ao elemento correspondente 
     // (e remover essa classe de algum outro elemento que já a tenha)

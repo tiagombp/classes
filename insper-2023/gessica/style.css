@@ -4,6 +4,7 @@
 
 :root {
     --largura: 600px;
+    --largura-tt: 290px;
 }
 
 .main-text {
@@ -11,7 +12,12 @@
     max-width: var(--largura);
 }
 
-svg {
+.map-container {
+    position: relative;
+    border: 1px solid black;
+}
+
+.map-container, svg {
     margin: 0 auto;
     display: block;
     width: 100%;
@@ -31,7 +37,32 @@ path.highlight {
 }
 
 .texto-tooltip {
-    min-height: 3em;
+    position: absolute;
+    background-color: white;
+    font-size: .8rem;
+    max-width: 80%;
+    width: var(--largura-tt);
+    padding: .5em;
+    border: 2px solid #333;
+    box-shadow: 1px 1px #333; 
+    /*min-height: 3em;*/
+}
+
+.texto-tooltip p {
+    margin: .5em 0;
+}
+
+.texto-tooltip.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.lista-prefeitas {
+    margin: .5em 0;
+}
+
+.lista-prefeitas li+li {
+    margin-top: .5em;   
 }
 
 /* legendas */
