@@ -1,7 +1,11 @@
-let tipo_grafico = 'vereadora'; // 'prefeita' ou 'vereadora'
+let tipo_grafico = 'prefeita'; // 'prefeita' ou 'vereadora'
+
+const seletor_tipo_grafico = document.querySelector('#seleciona-tipo-mapa');
+console.log(seletor_tipo_grafico);
+// o monitor de mudanças desse seletor está dentro da função que lê os dados
 
 const thresholds = {
-  'vereadora' : [1, 10, 30],
+  'vereadora' : [1, 10, 30], // os valores limites de cada categoria de valor: 0, 1 a 10-1, 10 a 30-1, Mais de 30
   'prefeita'  : [1,  3,  5]
 }
 
@@ -10,7 +14,7 @@ const colors = {
   'prefeita'  : d3.schemeOranges[4]
 }
 
-const escala_cor = d3.scaleThreshold()
+const escala_cor = d3.scaleThreshold() // essa é uma funcao de escala, em que a gente passa um valor e ela retorna uma cor correspondente à categoria a que o valor pertence
   .domain(thresholds[tipo_grafico])
   .range(colors[tipo_grafico])
 ;
@@ -71,6 +75,8 @@ function atualiza_a_legenda() {
 }
 
 atualiza_a_legenda();
+
+
 
 // carrega os dados
 Promise.all([
@@ -140,12 +146,30 @@ Promise.all([
           .attr("fill", d => escala_cor(d.properties[`qde_${tipo_grafico}s`]))
   ;
 
+  // quando a pessoa muda o seletor do tipo de gráfico
+  seletor_tipo_grafico.addEventListener('change', e => {
+
+    // atualiza variável do tipo do gráfico
+    tipo_grafico = e.target.value;
+  
+    // atualiza escala de cor
+    escala_cor
+      .domain(thresholds[tipo_grafico])
+      .range(colors[tipo_grafico])
+    ;
+  
+    // atualiza legenda
+    atualiza_a_legenda();
+  
+    // atualiza o gráfico
+    municipios.transition().duration(200).attr("fill", d => escala_cor(d.properties[`qde_${tipo_grafico}s`]));
+    
+  })
+
   // chama a função para popular a lista de municipios
 
   const nomes_municipios = data.features.map(feature =>
     `${feature.properties.name_muni} (${feature.properties.abbrev_state})`);
-
-  console.log(nomes_municipios);
 
   popula_lista_de_sugestoes(nomes_municipios);
 
