@@ -36,6 +36,21 @@ path.highlight {
     fill: goldenrod;
 }
 
+path.highlight-pesquisa {
+    stroke: firebrick;
+    stroke-width: 2;
+}
+
+.container-caixa-pesquisa {
+    margin: 1rem auto;
+    max-width: var(--largura);
+
+}
+
+.container-caixa-pesquisa input {
+    width: 200px;
+}
+
 .texto-tooltip {
     position: absolute;
     background-color: white;

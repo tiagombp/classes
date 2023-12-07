@@ -9,8 +9,7 @@ mun <- read_municipality()
 
 contagem_prefeitas <- read.csv('prefeitas_eleitas_mun.csv') %>% select(
   code_muni = codigo_ibge,
-  FEMININO, 
-  MASCULINO
+  qde_prefeitas = FEMININO
 )
 
 nomes_prefeitas <- read.csv('df_prefeitos.csv') %>%
@@ -24,13 +23,31 @@ nomes_prefeitas <- read.csv('df_prefeitos.csv') %>%
   group_by(code_muni) %>%
   summarise(lista_nome_prefeitas = paste(nome, collapse = ';'))
 
+contagem_vereadoras <- read.csv('vereadores_genero.csv') %>% select(
+  code_muni = codigo_ibge,
+  qde_vereadoras = FEMININO
+)
+
+nomes_vereadoras <- read.csv('df_vereadores.csv') %>%
+  filter(DS_GENERO == 'FEMININO') %>%
+  select(code_muni = codigo_ibge,
+         ANO_ELEICAO,
+         NM_URNA_CANDIDATO) %>% 
+  arrange(code_muni, ANO_ELEICAO) %>%
+  mutate(nome = paste0(NM_URNA_CANDIDATO, ' (', ANO_ELEICAO, ')')) %>%
+  select(-ANO_ELEICAO, -NM_URNA_CANDIDATO) %>%
+  group_by(code_muni) %>%
+  summarise(lista_nome_vereadoras = paste(nome, collapse = ';'))
+
 mun_data <- mun %>%
   rmapshaper::ms_simplify(keep = 0.01) %>%
   left_join(contagem_prefeitas) %>%
-  left_join(nomes_prefeitas)
+  left_join(nomes_prefeitas) %>%
+  left_join(contagem_vereadoras) %>%
+  left_join(nomes_vereadoras)
 
 
-ggplot(mun_data) + geom_sf(aes(fill = FEMININO), color = NA)
+ggplot(mun_data) + geom_sf(aes(fill = qde_vereadoras), color = NA)
 
 write(
   geojsonsf::sf_geojson(

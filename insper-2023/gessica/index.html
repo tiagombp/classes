@@ -11,11 +11,23 @@
 
     <div class="main-text">
 
-        <h1>Mapa Brasil</h1>   
+        <h1>Mapa Brasil</h1>  
+        
+        <select name="selectiona-tipo-mapa" id="selectiona-tipo-mapa">
+            <option value="mapa-prefeitas">Prefeitas</option>
+            <option value="mapa-vereadoras">Vereadoras</option>
+        </select>
 
     </div>
 
     <div class="legenda"></div>
+
+    <div class="container-caixa-pesquisa">
+        <input type="search" name="pesquisa-municipio" id="pesquisa-municipio" list="lista-municipios" placeholder="Selecione o município">
+        <datalist id="lista-municipios">
+
+        </datalist>
+    </div>
 
     <div class="map-container">
         <div class="texto-tooltip hidden">

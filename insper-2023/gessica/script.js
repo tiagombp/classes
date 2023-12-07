@@ -63,8 +63,18 @@ Promise.all([
           .join("path") // na prática, este comando cria um elemento "path" para elemento na lista de dados (ou seja, para cada linha do dataframe)
           .classed('municipio', true) // acrescentamos uma classe aos elementos criados, para ficar mais fácil fazer referências a eles depois
           .attr("d", gerador_path) // o principal atributo do elemento "path" de um svg é o atributo "d", que são como instruções de desenhos ("mova o cursor para o ponto (x,y), desenhe uma linha até o ponto (x1,y1)" etc.) esse atributo vai ser gerado pela função "gerador_path" que definimos acima, convertendo as coordenadas geográficas presentes em cada linha do dataframe (ou elemento da lista de dados), em instruções de desenho
-          .attr("fill", d => d3.schemeBlues[7][d.properties.FEMININO])
+          .attr("fill", d => d3.schemeBlues[7][d.properties.qde_prefeitas])
   ;
+
+  // chama a função para popular a lista de municipios
+
+  const nomes_municipios = data.features.map(feature =>
+    `${feature.properties.name_muni} (${feature.properties.abbrev_state})`);
+
+  console.log(nomes_municipios);
+
+  popula_lista_de_sugestoes(nomes_municipios);
+
 
   // acrescenta um monitor de eventos do tipo "mouseover" nos elementos <path> que foram criados
   
@@ -147,7 +157,7 @@ Promise.all([
 
     // agora definimos a posição
     // a variável "e" traz informações sobre a posição do mouse
-    console.log(e);
+    //console.log(e);
 
     const x = e.offsetX;
     const y = e.offsetY;
@@ -177,7 +187,45 @@ Promise.all([
 
   }
 
+  // monitora busca por municipio
+
+  const elemento_pesquisa = document.querySelector('input#pesquisa-municipio');
+
+  elemento_pesquisa.addEventListener('input', e => {
+
+    const municipio_procurado = e.target.value;
+    console.log(elemento_pesquisa.value);
+
+    const indice = nomes_municipios.indexOf(municipio_procurado)
+    console.log(indice);
+
+    if (indice > 0) {
+
+      municipios.classed('highlight-pesquisa', d => d.properties.name_muni + ` (${d.properties.abbrev_state})` == municipio_procurado);
+
+    }
+
+    if (municipio_procurado.length == 0)  municipios.classed('highlight-pesquisa', false);
+
+  })
+
 })
+
+// popula lista de sugestoes
+
+function popula_lista_de_sugestoes(municipios) {
+
+  const elemento_lista = document.querySelector('datalist#lista-municipios');
+
+  municipios.forEach(municipio => {
+
+    const novo_elemento = document.createElement('option');
+    novo_elemento.value = municipio;
+    elemento_lista.appendChild(novo_elemento);
+
+  })
+
+}
 
 // legenda
 
