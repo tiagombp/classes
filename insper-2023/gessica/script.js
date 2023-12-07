@@ -1,3 +1,77 @@
+let tipo_grafico = 'vereadora'; // 'prefeita' ou 'vereadora'
+
+const thresholds = {
+  'vereadora' : [1, 10, 30],
+  'prefeita'  : [1,  3,  5]
+}
+
+const colors = {
+  'vereadora' : d3.schemeBlues[4],
+  'prefeita'  : d3.schemeOranges[4]
+}
+
+const escala_cor = d3.scaleThreshold()
+  .domain(thresholds[tipo_grafico])
+  .range(colors[tipo_grafico])
+;
+
+// legenda
+function faz_a_legenda(qde_cores) {
+
+  const leg = document.querySelector('.legenda');
+
+  for (let i = 0; i < qde_cores; i++) {
+
+    const new_cat_container = document.createElement('div');
+    new_cat_container.classList.add('color-container');
+    new_cat_container.dataset.category = i;
+
+    const new_color_key = document.createElement('span');
+    new_color_key.classList.add('color-key');
+    //new_color_key.style.backgroundColor = d3.schemeBlues[7][feminino];
+
+    const new_color_label = document.createElement('span');
+    new_color_label.classList.add('color-label');
+    //new_color_label.innerText = feminino;
+
+    new_cat_container.appendChild(new_color_key);
+    new_cat_container.appendChild(new_color_label);
+
+    leg.appendChild(new_cat_container);
+    
+  }
+
+}
+
+faz_a_legenda(thresholds[tipo_grafico].length + 1);
+
+function atualiza_a_legenda() {
+  
+  const containers_legenda = document.querySelectorAll('.color-container');
+
+  const valores = [ 0, ...thresholds[tipo_grafico] ]; // acrescentando um zero inicial à lista de valores que serão usados para definir as categorias (0 a 9, 10 a 29 etc.)
+
+  containers_legenda.forEach( (container,i) => {
+
+    let texto;
+
+    if (i >= valores.length - 1) {
+      texto = 'Mais de ' + valores[i];
+    } else if (i == 0) {
+      texto = 'Nenhuma'
+    } else {
+      texto = `${valores[i]} a ${valores[i+1]-1}`
+    }
+
+    container.querySelector('.color-key').style.backgroundColor = colors[tipo_grafico][i];
+    container.querySelector('.color-label').innerText = texto;
+
+  })
+
+}
+
+atualiza_a_legenda();
+
 // carrega os dados
 Promise.all([
 
@@ -63,7 +137,7 @@ Promise.all([
           .join("path") // na prática, este comando cria um elemento "path" para elemento na lista de dados (ou seja, para cada linha do dataframe)
           .classed('municipio', true) // acrescentamos uma classe aos elementos criados, para ficar mais fácil fazer referências a eles depois
           .attr("d", gerador_path) // o principal atributo do elemento "path" de um svg é o atributo "d", que são como instruções de desenhos ("mova o cursor para o ponto (x,y), desenhe uma linha até o ponto (x1,y1)" etc.) esse atributo vai ser gerado pela função "gerador_path" que definimos acima, convertendo as coordenadas geográficas presentes em cada linha do dataframe (ou elemento da lista de dados), em instruções de desenho
-          .attr("fill", d => d3.schemeBlues[7][d.properties.qde_prefeitas])
+          .attr("fill", d => escala_cor(d.properties[`qde_${tipo_grafico}s`]))
   ;
 
   // chama a função para popular a lista de municipios
@@ -101,19 +175,19 @@ Promise.all([
 
     const nome_municipio = element_data.properties.name_muni + ` (${element_data.properties.abbrev_state})`; // "name_muni" é a coluna onde está armazenado o nome do município nesse meu arquivo de dados, e "abbrev_state" contém a sigla do estado (estou usando os dois por conta dos municípios homônimos)
 
-    const qde_prefeitas = element_data.properties.FEMININO; // 'FEMININO' é a coluna com o número de prefeitas eleitas
+    const qde = element_data.properties[`qde_${tipo_grafico}s`]; // 'FEMININO' é a coluna com o número de prefeitas eleitas
 
     let msg;
 
-    if (qde_prefeitas == null) msg = 'Sem informação';
-    else if (qde_prefeitas == 0) msg = 'O município nunca elegeu uma prefeita';
-    else if (qde_prefeitas == 1) msg = 'Apenas uma mulher foi eleita prefeita no município:';
-    else msg = `Mulheres foram eleitas prefeitas em ${qde_prefeitas} ocasiões:`;
+    if (qde == null) msg = 'Sem informação';
+    else if (qde == 0) msg = `O município nunca elegeu uma ${tipo_grafico}`;
+    else if (qde == 1) msg = `Apenas uma mulher foi eleita ${tipo_grafico} no município:`;
+    else msg = `Mulheres foram eleitas ${tipo_grafico}s em ${qde} ocasiões:`;
 
-    let lista_prefeitas;
-    if (qde_prefeitas >= 1) {
+    let lista;
+    if (qde >= 1) {
 
-      lista_prefeitas = element_data.properties.lista_nome_prefeitas.split(';'); // converte a lista com os nomes das prefeitas eleitas, que está armazenada como uma string na coluna "lista_nome_prefeitas", em um array
+      lista = element_data.properties[`lista_nome_${tipo_grafico}s`].split(';'); // converte a lista com os nomes das prefeitas eleitas, que está armazenada como uma string na coluna "lista_nome_prefeitas", em um array
 
     }
 
@@ -137,14 +211,14 @@ Promise.all([
     container_lista_nome.innerHTML = '';
 
     // se pelo menos uma prefeita foi eleita...
-    if (qde_prefeitas >= 1) {
+    if (qde >= 1) {
 
-      lista_prefeitas.forEach(prefeita => { // vamos iterar sobre a array que contem a lista de prefeitas
+      lista.forEach(politica => { // vamos iterar sobre a array que contem a lista de prefeitas
 
         // para cada prefeita, vamos criar um elemento do tipo item de lista <li>
         const li = document.createElement('li');
         // alimentamos seu conteúdo com o nome da prefeita
-        li.innerText = prefeita;
+        li.innerText = politica;
         // adicionamos o elemento à lista de nomes
         container_lista_nome.appendChild(li);
       })
@@ -226,36 +300,3 @@ function popula_lista_de_sugestoes(municipios) {
   })
 
 }
-
-// legenda
-
-function faz_a_legenda() {
-
-  const valores_feminino = [0, 1, 2, 3, 4, 5, 6];
-
-  const leg = document.querySelector('.legenda');
-
-  valores_feminino.forEach(feminino => {
-
-    const new_cat_container = document.createElement('div');
-    new_cat_container.classList.add('color-container');
-    new_cat_container.dataset.category = feminino;
-
-    const new_color_key = document.createElement('span');
-    new_color_key.classList.add('color-key');
-    new_color_key.style.backgroundColor = d3.schemeBlues[7][feminino];
-
-    const new_color_label = document.createElement('span');
-    new_color_label.classList.add('color-label');
-    new_color_label.innerText = feminino;
-
-    new_cat_container.appendChild(new_color_key);
-    new_cat_container.appendChild(new_color_label);
-
-    leg.appendChild(new_cat_container);
-
-  })
-
-}
-
-faz_a_legenda();
