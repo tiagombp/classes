@@ -176,9 +176,19 @@ Promise.all([
 
   // acrescenta um monitor de eventos do tipo "mouseover" nos elementos <path> que foram criados
   
-  municipios.on('mouseover', showInfo);
+  municipios.on('mouseover', showTT);
 
-  function showInfo(e, element_data) {
+  municipios.on('click', (e, element_data) => {
+
+    const nome_municipio = element_data.properties.name_muni + ` (${element_data.properties.abbrev_state})`; // "name_muni" é a coluna onde está armazenado o nome do município nesse meu arquivo de dados, e "abbrev_state" contém a sigla do estado (estou usando os dois por conta dos municípios homônimos)
+
+    preencheCaixaLateral(nome_municipio);
+
+    elemento_pesquisa.value = nome_municipio;
+
+  })
+
+  function showTT(e, element_data) {
 
     // os monitores de evento (event listeners) sempre passam um argumento contendo detalhes do evento que foi disparado. 
     // por isso, sempre definimos um parämetro "e" na declaração de uma função que vai ser chamada por um monitor de eventos)
@@ -199,55 +209,9 @@ Promise.all([
 
     const nome_municipio = element_data.properties.name_muni + ` (${element_data.properties.abbrev_state})`; // "name_muni" é a coluna onde está armazenado o nome do município nesse meu arquivo de dados, e "abbrev_state" contém a sigla do estado (estou usando os dois por conta dos municípios homônimos)
 
-    const qde = element_data.properties[`qde_${tipo_grafico}s`]; // 'FEMININO' é a coluna com o número de prefeitas eleitas
-
-    let msg;
-
-    if (qde == null) msg = 'Sem informação';
-    else if (qde == 0) msg = `O município nunca elegeu uma ${tipo_grafico}`;
-    else if (qde == 1) msg = `Apenas uma mulher foi eleita ${tipo_grafico} no município:`;
-    else msg = `Mulheres foram eleitas ${tipo_grafico}s em ${qde} ocasiões:`;
-
-    let lista;
-    if (qde >= 1) {
-
-      lista = element_data.properties[`lista_nome_${tipo_grafico}s`].split(';'); // converte a lista com os nomes das prefeitas eleitas, que está armazenada como uma string na coluna "lista_nome_prefeitas", em um array
-
-    }
-
-    // pronto, capturamos as informações de que precisamos para montar a caixinha de informação. Agora vamos atualizar o conteúdo do html com essas informaçoes.
-
-    // primeiro geramos uma referência ao elemento que vai mostrar o nome do município
-    const elemento_nome = document.querySelector('.nome-municipio');
+    const elemento_nome_tt = document.querySelector('.nome-municipio-tt');
     // agora atualizamos o conteúdo do elemento
-    elemento_nome.innerText = nome_municipio;
-
-    // agora geramos uma referência ao elemento que vai mostrar uma mensagem com uma síntese da quantidade de prefeitas
-    const elemento_msg = document.querySelector('.sumario-municipio');
-    // agora atualizamos o conteúdo do elemento
-    elemento_msg.innerText = msg;
-
-    // agora, caso a quantidade seja maior do 0, vamos incluir uma lista com os nomes das prefeiras
-    // capturamos uma referência para o container, um elemento de lista (<ul>)
-    const container_lista_nome = document.querySelector('.lista-prefeitas');
-
-    // primeiro esvaziamos esse elemento (ele pode já estar preenchido de uma outra seleção)
-    container_lista_nome.innerHTML = '';
-
-    // se pelo menos uma prefeita foi eleita...
-    if (qde >= 1) {
-
-      lista.forEach(politica => { // vamos iterar sobre a array que contem a lista de prefeitas
-
-        // para cada prefeita, vamos criar um elemento do tipo item de lista <li>
-        const li = document.createElement('li');
-        // alimentamos seu conteúdo com o nome da prefeita
-        li.innerText = politica;
-        // adicionamos o elemento à lista de nomes
-        container_lista_nome.appendChild(li);
-      })
-
-    }
+    elemento_nome_tt.innerText = nome_municipio;
 
     // agora mostramos a tooltip (ela fica escondida por padrão)
     const tt = document.querySelector('.texto-tooltip');
@@ -285,6 +249,86 @@ Promise.all([
 
   }
 
+  function preencheCaixaLateral(nomeMun) {
+
+    const element_data = data.features.filter(d => (d.properties.name_muni + ` (${d.properties.abbrev_state})`) == nomeMun)[0];
+
+    console.log(nomeMun, element_data);
+
+
+    // os monitores de evento (event listeners) sempre passam um argumento contendo detalhes do evento que foi disparado. 
+    // por isso, sempre definimos um parämetro "e" na declaração de uma função que vai ser chamada por um monitor de eventos)
+    // para entender o que esse argumento "e" carrega, vale dar um console.log nele e navegar um pouco pelo objeto no console...
+    //console.log(e);
+
+    // como estamos usando o monitor de eventos do d3 (o método ".on", chamado no objeto "municipios"), além de um parâmetro "e", é possível passar um segundo parâmetro que representa o dado que se encontra "amarrado" ao elemento que disparou o evento. Aqui, chamei de "element_data"
+
+    // a alternativa seria recuperar o dado a partir do atributo "e".
+    // e.target é o elemento HTML em que foi disparado o evento. Na prática, é o elemento "path".
+    // quando esses elementos são criados com D3, os dados associados a esse elemento "path" ficam armazenados 
+    // em uma propriedade "__data__"
+
+    // então poderíamos buscar o "element_data" assim:
+    // const element_data = e.target.__data__;
+    // ou 
+    // const element_data = d3.select(e.target).datum();
+
+    //const nome_municipio = element_data.properties.name_muni + ` (${element_data.properties.abbrev_state})`; // "name_muni" é a coluna onde está armazenado o nome do município nesse meu arquivo de dados, e "abbrev_state" contém a sigla do estado (estou usando os dois por conta dos municípios homônimos)
+
+    const qde = element_data.properties[`qde_${tipo_grafico}s`]; // 'FEMININO' é a coluna com o número de prefeitas eleitas
+
+    let msg;
+
+    if (qde == null) msg = 'Sem informação';
+    else if (qde == 0) msg = `O município nunca elegeu uma ${tipo_grafico}`;
+    else if (qde == 1) msg = `Apenas uma mulher foi eleita ${tipo_grafico} no município:`;
+    else msg = `Mulheres foram eleitas ${tipo_grafico}s em ${qde} ocasiões:`;
+
+    let lista;
+    if (qde >= 1) {
+
+      lista = element_data.properties[`lista_nome_${tipo_grafico}s`].split(';'); // converte a lista com os nomes das prefeitas eleitas, que está armazenada como uma string na coluna "lista_nome_prefeitas", em um array
+
+    }
+
+    // pronto, capturamos as informações de que precisamos para montar a caixinha de informação. Agora vamos atualizar o conteúdo do html com essas informaçoes.
+
+    // primeiro geramos uma referência ao elemento que vai mostrar o nome do município
+    const elemento_nome = document.querySelector('.nome-municipio');
+    // agora atualizamos o conteúdo do elemento
+    elemento_nome.innerText = nomeMun;
+
+    // agora geramos uma referência ao elemento que vai mostrar uma mensagem com uma síntese da quantidade de prefeitas
+    const elemento_msg = document.querySelector('.sumario-municipio');
+    // agora atualizamos o conteúdo do elemento
+    elemento_msg.innerText = msg;
+
+    // agora, caso a quantidade seja maior do 0, vamos incluir uma lista com os nomes das prefeiras
+    // capturamos uma referência para o container, um elemento de lista (<ul>)
+    const container_lista_nome = document.querySelector('.lista-prefeitas');
+
+    // primeiro esvaziamos esse elemento (ele pode já estar preenchido de uma outra seleção)
+    container_lista_nome.innerHTML = '';
+
+    // se pelo menos uma prefeita foi eleita...
+    if (qde >= 1) {
+
+      lista.forEach(politica => { // vamos iterar sobre a array que contem a lista de prefeitas
+
+        // para cada prefeita, vamos criar um elemento do tipo item de lista <li>
+        const li = document.createElement('li');
+        // alimentamos seu conteúdo com o nome da prefeita
+        li.innerText = politica;
+        // adicionamos o elemento à lista de nomes
+        container_lista_nome.appendChild(li);
+      })
+
+    }
+
+    municipios.classed('highlight-pesquisa', d => d.properties.name_muni + ` (${d.properties.abbrev_state})` == nomeMun);
+
+  }
+
   // monitora busca por municipio
 
   const elemento_pesquisa = document.querySelector('input#pesquisa-municipio');
@@ -299,11 +343,22 @@ Promise.all([
 
     if (indice > 0) {
 
-      municipios.classed('highlight-pesquisa', d => d.properties.name_muni + ` (${d.properties.abbrev_state})` == municipio_procurado);
+      preencheCaixaLateral(municipio_procurado);
+
+      //municipios.classed('highlight-pesquisa', d => d.properties.name_muni + ` (${d.properties.abbrev_state})` == municipio_procurado);
 
     }
 
-    if (municipio_procurado.length == 0)  municipios.classed('highlight-pesquisa', false);
+    if (municipio_procurado.length == 0)  {
+      municipios.classed('highlight-pesquisa', false);
+      const elemento_nome = document.querySelector('.nome-municipio');
+      elemento_nome.innerText = '';
+      const elemento_msg = document.querySelector('.sumario-municipio');
+      elemento_msg.innerText = '';
+      const container_lista_nome = document.querySelector('.lista-prefeitas');
+      container_lista_nome.innerHTML = '';
+    }
+
 
   })
 

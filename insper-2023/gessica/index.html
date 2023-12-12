@@ -29,15 +29,22 @@
         </datalist>
     </div>
 
-    <div class="map-container">
-        <div class="texto-tooltip hidden">
+    <div class="wrapper-mapa">
+        <div class="caixa-lateral">
             <p><strong class="nome-municipio"></strong></p>
             <p class="sumario-municipio"></p>
             <ol class="lista-prefeitas">
             </ol>
-        </div> 
-        <svg class="map"></svg>
+        </div>
+    
+        <div class="map-container">
+            <div class="texto-tooltip hidden">
+                <p class="nome-municipio-tt"></p>
+            </div> 
+            <svg class="map"></svg>
+        </div>
     </div>
+
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="script.js"></script>
