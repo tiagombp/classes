@@ -40,6 +40,7 @@ nomes_vereadoras <- read.csv('df_vereadores.csv') %>%
   summarise(lista_nome_vereadoras = paste(nome, collapse = ';'))
 
 mun_data <- mun %>%
+  filter(!(code_muni %in% c(4300001, 4300002))) %>%
   rmapshaper::ms_simplify(keep = 0.01) %>%
   left_join(contagem_prefeitas) %>%
   left_join(nomes_prefeitas) %>%
